@@ -1,22 +1,56 @@
 
+[bits 16]
+
 global _bootloader_entry
 
-mov ah, 0x0E
-
-mov al, 'T'
-int 0x10
-
-mov al, 'E'
-int 0x10
-
-mov al, 'S'
-int 0x10
-
-mov al, 'T'
-int 0x10
-
 _bootloader_entry:
-    jmp _bootloader_entry
+    cli                     ; Disable all interrupts
+    lgdt [GDT32_descriptor] ; Load General Descriptor Table
+
+    ; Switching the CPU to the 32-bit mode
+    ; We can't change the value of this register directly
+    ; So we'll set it to the value of another register
+    mov eax, cr0 
+    or  eax, 1   ; Change the last bit of EAX to 1
+    mov cr0, eax ; Since this moment the CPU is running in 32-bit mode
+
+    ; Performing a far jump to alter the value of CS register
+    jmp GDT32_start.code_segment:_protected_mode_entry
+
+GDT32_start:
+    dq 0x0000000000000000
+.code_segment: equ $ - GDT32_start
+    dq 0x00CF9A000000FFFF
+.data_segment: equ $ - GDT32_start
+    dq 0x00CF92000000FFFF
+GDT32_end:
+
+GDT32_descriptor:
+    dw GDT32_end - GDT32_start - 1 ; The size of the GDT
+    dd GDT32_start                 ; Pointer to the beggining of the GDT
+
+[bits 32]
+
+_protected_mode_entry:
+    mov al, 'T'
+    mov ah, 0x0F
+
+    mov ax, [0xB8000]
+
+    mov al, 'E'
+    mov ah, 0x0F
+
+    mov ax, [0xB8004]
+
+    mov al, 'S'
+    mov ah, 0x0F
+
+    mov ax, [0xB8008]
+
+    mov al, 'T'
+    mov ah, 0x0F
+
+    mov ax, [0xB800C]
 
 times 510 - ($-$$) db 0
 
