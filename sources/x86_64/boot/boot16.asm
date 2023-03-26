@@ -1,7 +1,11 @@
-[bits 16]
 
 global _bootloader_entry
 
+extern _protected_mode_entry
+
+[bits 16]
+
+    section .text
 _bootloader_entry:
     cli                     ; Disable all interrupts
     lgdt [GDT32_descriptor] ; Load General Descriptor Table
@@ -28,29 +32,6 @@ GDT32_descriptor:
     dw GDT32_end - GDT32_start - 1 ; The size of the GDT
     dd GDT32_start                 ; Pointer to the beggining of the GDT
 
-[bits 32]
-
-_protected_mode_entry:
-    mov al, 'T'
-    mov ah, 0x0F
-
-    mov ax, [0xB8000]
-
-    mov al, 'E'
-    mov ah, 0x0F
-
-    mov ax, [0xB8004]
-
-    mov al, 'S'
-    mov ah, 0x0F
-
-    mov ax, [0xB8008]
-
-    mov al, 'T'
-    mov ah, 0x0F
-
-    mov ax, [0xB800C]
-
 times 510 - ($-$$) db 0
 
-dw 0xAA55
+dw 0xAA55 ; MBR signature
