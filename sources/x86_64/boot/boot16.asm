@@ -20,6 +20,8 @@ _bootloader_entry:
     ; Performing a far jump to alter the value of CS register
     jmp GDT32_start.code_segment:_protected_mode_entry
 
+    hlt
+
 GDT32_start:
     dq 0x0000000000000000 ; Null Descriptor
 .code_segment: equ $ - GDT32_start

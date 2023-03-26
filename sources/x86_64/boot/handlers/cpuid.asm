@@ -5,6 +5,8 @@ global handle_cpuid
 
     section .text
 handle_cpuid:
+    ; Check if CPUID is supported
+
     ; PUSHFD - push the current contents of the EFLAGS register
     ; onto the top of the stack
 
@@ -28,6 +30,15 @@ handle_cpuid:
     ; Otherwise, will be stored non-zero value 
     and eax, 1 << 21
 
+    ; If CPUID is not supported, handling exception
+    jz .cpuid_error
+
     ret
 
-.cpuid_not_supported:
+.cpuid_error:
+    mov al, 'C'
+    mov ah, 0x0F
+
+    mov [0xB8000], ax
+
+    hlt
