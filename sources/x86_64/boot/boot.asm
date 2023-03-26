@@ -1,4 +1,3 @@
-
 [bits 16]
 
 global _bootloader_entry
@@ -18,7 +17,7 @@ _bootloader_entry:
     jmp GDT32_start.code_segment:_protected_mode_entry
 
 GDT32_start:
-    dq 0x0000000000000000
+    dq 0x0000000000000000 ; Null Descriptor
 .code_segment: equ $ - GDT32_start
     dq 0x00CF9A000000FFFF
 .data_segment: equ $ - GDT32_start

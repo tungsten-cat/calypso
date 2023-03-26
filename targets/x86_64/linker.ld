@@ -2,7 +2,7 @@ ENTRY(_bootloader_entry)
 
 SECTIONS
 {
-    . = 1M;
+    . = 40K;
 
     .text :
     {
