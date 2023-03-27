@@ -1,8 +1,6 @@
 
 global _bootloader_entry
 
-extern _protected_mode_entry
-
 [bits 16]
 
     section .text
@@ -33,6 +31,14 @@ GDT32_end:
 GDT32_descriptor:
     dw GDT32_end - GDT32_start - 1 ; The size of the GDT
     dd GDT32_start                 ; Pointer to the beggining of the GDT
+
+[bits 32]
+
+_protected_mode_entry:
+    mov al, 'P'
+    mov ah, 0x0F
+
+    mov dword [0xB8000], ax
 
 times 510 - ($-$$) db 0
 
