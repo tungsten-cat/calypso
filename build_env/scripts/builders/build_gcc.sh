@@ -30,11 +30,11 @@ cd build-gcc
 
 # With basic GCC components we also building LIBGCC
 # Which is a low-level support library that the compiler expects at compile time
-make all-gcc
-make all-target-libgcc
+make -j ${MAKE_JOBS} all-gcc
+make -j ${MAKE_JOBS} all-target-libgcc
 
-make install-gcc
-make install-target-libgcc
+make -j ${MAKE_JOBS} install-gcc
+make -j ${MAKE_JOBS} install-target-libgcc
 
 # Note that we aren't running make && make install
 # as that would build way too much for our operating system. 

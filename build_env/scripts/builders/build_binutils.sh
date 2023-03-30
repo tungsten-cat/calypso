@@ -23,8 +23,8 @@ cd build-binutils
 # This flag reduces dependencies and compilation time
 
 # All required components can be built using the following commands
-make
-make install
+make -j ${MAKE_JOBS}
+make -j ${MAKE_JOBS} install
 
 # POPD returns you to the latest directory stored on stack
 popd

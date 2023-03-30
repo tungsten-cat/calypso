@@ -14,6 +14,13 @@ ARG BUILD_TARGET=x86_64-elf
 
 # Example: --build-arg BUILD_TARGET=x86_64-elf
 
+# On a multi-core machine you can speed up the build
+# By parallelising it using this parameter
+
+# This parameter sets how many jobs to run simultaneously
+ARG USER_MAKE_JOBS=8
+ENV MAKE_JOBS ${USER_MAKE_JOBS}
+
 # Also set versions for GCC and Binutils
 ENV BINUTILS_VERSION X
 ENV GCC_VERSION X
