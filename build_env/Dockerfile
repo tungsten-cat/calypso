@@ -22,8 +22,8 @@ ARG USER_MAKE_JOBS=8
 ENV MAKE_JOBS ${USER_MAKE_JOBS}
 
 # Also set versions for GCC and Binutils
-ENV BINUTILS_VERSION X
-ENV GCC_VERSION X
+ENV BINUTILS_VERSION 2.40
+ENV GCC_VERSION 12.2.0
 
 # Update all system packages
 # to the latest available version
@@ -32,7 +32,7 @@ RUN apt-get upgrade -y
 
 # Install needed packages to build cross compiler
 RUN apt-get install -y \
-    build-essentials bison flex texinfo wget \
+    build-essential bison flex texinfo wget \
     libgmp3-dev libmpc-dev libmpfr-dev
 
 # Set compiler installation directory
@@ -49,6 +49,8 @@ ENV PATH="/scripts:/scripts/builders:$PATH"
 
 # Finally, run our building scripts
 # After executing, remove temporary files
+RUN mkdir -p /sources
+
 RUN download_sources.sh /sources && \
     build_binutils.sh /sources && build_gcc.sh /sources && \
     rm -rf /sources && rm -rf /scripts
