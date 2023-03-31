@@ -14,6 +14,8 @@ mkdir build-binutils
 cd build-binutils
 
 # After that, we can configure BINUTILS to build it for our platform
+echo "Configuring BINUTILS..."
+
 ../binutils-${BINUTILS_VERSION}/configure \
     --target=${BUILD_TARGET} \
     --prefix="${BUILD_PREFIX}" \
@@ -32,7 +34,10 @@ cd build-binutils
 # all compiler warnings to be treated as errors
 
 # All required components can be built using the following commands
+echo "Building BINUTILS..."
 make -j ${MAKE_JOBS}
+
+echo "Installing BINUTILS..."
 make -j ${MAKE_JOBS} install
 
 # POPD returns you to the latest directory stored on stack

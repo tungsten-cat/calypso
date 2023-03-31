@@ -28,13 +28,13 @@ ENV GCC_VERSION 12.2.0
 
 # Update all system packages
 # to the latest available version
-RUN apt-get update
-RUN apt-get upgrade -y
+RUN apt-get update && apt-get upgrade -y
 
 # Install needed packages to build cross compiler
 RUN apt-get install -y \
     build-essential bison flex texinfo wget nasm \
-    libgmp3-dev libmpc-dev libmpfr-dev
+    libgmp3-dev libmpc-dev libmpfr-dev && \
+    apt-get clean
 
 # Set compiler installation directory
 ENV BUILD_PREFIX=/usr/local/cross
@@ -45,13 +45,17 @@ ENV PATH="${BUILD_PREFIX}/bin:$PATH"
 
 # Copy building scripts to our container
 # And add them to PATH 
-COPY scripts /scripts
-ENV PATH="/scripts:/scripts/builders:$PATH"
+COPY scripts /root/scripts
+ENV PATH="/root/scripts:/root/scripts/builders:$PATH"
 
 # Finally, run our building scripts
 # After executing, remove temporary files
-RUN mkdir -p /sources
+RUN mkdir -p /root/sources
 
-RUN download_sources.sh /sources && \
-    build_binutils.sh /sources && build_gdb.sh /sources && build_gcc.sh /sources \
-    rm -rf /sources && rm -rf /scripts
+RUN download_sources.sh /root/sources && \
+    build_binutils.sh /root/sources && \
+    build_gdb.sh /root/sources && build_gcc.sh /root/sources \
+    rm -rf /root/sources && rm -rf /root/scripts
+
+VOLUME /root/env
+WORKDIR /root/env

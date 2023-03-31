@@ -14,6 +14,8 @@ mkdir build-gcc
 cd build-gcc
 
 # After that, we can configure GCC to build it for our platform
+echo "Configuring GCC..."
+
 ../gcc-${GCC_VERSION}/configure \
     --target=${BUILD_TARGET} \
     --prefix="${BUILD_PREFIX}" \
@@ -33,9 +35,11 @@ cd build-gcc
 
 # With basic GCC components we also building LIBGCC
 # Which is a low-level support library that the compiler expects at compile time
+echo "Building GCC..."
 make -j ${MAKE_JOBS} all-gcc
 make -j ${MAKE_JOBS} all-target-libgcc
 
+echo "Installing GCC..."
 make -j ${MAKE_JOBS} install-gcc
 make -j ${MAKE_JOBS} install-target-libgcc
 
