@@ -33,7 +33,7 @@ RUN apt-get upgrade -y
 
 # Install needed packages to build cross compiler
 RUN apt-get install -y \
-    build-essential bison flex texinfo wget \
+    build-essential bison flex texinfo wget nasm \
     libgmp3-dev libmpc-dev libmpfr-dev
 
 # Set compiler installation directory
@@ -55,4 +55,3 @@ RUN mkdir -p /sources
 RUN download_sources.sh /sources && \
     build_binutils.sh /sources && build_gdb.sh /sources && build_gcc.sh /sources \
     rm -rf /sources && rm -rf /scripts
-

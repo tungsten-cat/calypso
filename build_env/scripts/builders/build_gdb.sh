@@ -14,10 +14,13 @@ mkdir build-gdb
 cd build-gdb
 
 # After that, we can configure GDB to build it for our platform
-../gdb.x.y.z/configure \ 
-    --target=${BUILD_TARGET} \ # BUILD_TARGET is specified in Dockerfile, running that script
-    --prefix="${BUILD_PREFIX}" \ # BUILD_PREFIX is also specified in Dockerfile
+../gdb.x.y.z/configure \
+    --target=${BUILD_TARGET} \
+    --prefix="${BUILD_PREFIX}" \
     --disable-werror
+
+# BUILD_TARGET is specified in Dockerfile, running that script
+# BUILD_PREFIX is also specified in Dockerfile
 
 # --disable-werror s a compiler flag that causes 
 # all compiler warnings to be treated as errors

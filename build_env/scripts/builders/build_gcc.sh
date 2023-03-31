@@ -15,9 +15,12 @@ cd build-gcc
 
 # After that, we can configure GCC to build it for our platform
 ../gcc-${GCC_VERSION}/configure \
-    --target=${BUILD_TARGET} \ # BUILD_TARGET is specified in Dockerfile, running that script
-    --prefix="${BUILD_PREFIX}" \ # BUILD_PREFIX is also specified in Dockerfile
+    --target=${BUILD_TARGET} \
+    --prefix="${BUILD_PREFIX}" \
     --disable-nls --enable-languages=c,c++ --without-headers
+
+# BUILD_TARGET is specified in Dockerfile, running that script
+# BUILD_PREFIX is also specified in Dockerfile
 
 # --disable-nls tells binutils not to include native language support
 # This flag reduces dependencies and compilation time
