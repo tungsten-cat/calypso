@@ -21,8 +21,9 @@ ARG BUILD_TARGET=x86_64-elf
 ARG USER_MAKE_JOBS=8
 ENV MAKE_JOBS ${USER_MAKE_JOBS}
 
-# Also set versions for GCC and Binutils
+# Also set versions for GCC, GDB and Binutils
 ENV BINUTILS_VERSION 2.40
+ENV GDB_VERSION 13.1
 ENV GCC_VERSION 12.2.0
 
 # Update all system packages
@@ -52,6 +53,6 @@ ENV PATH="/scripts:/scripts/builders:$PATH"
 RUN mkdir -p /sources
 
 RUN download_sources.sh /sources && \
-    build_binutils.sh /sources && build_gcc.sh /sources && \
+    build_binutils.sh /sources && build_gdb.sh /sources && build_gcc.sh /sources \
     rm -rf /sources && rm -rf /scripts
 

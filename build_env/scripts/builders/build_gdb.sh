@@ -9,28 +9,22 @@ sources_path=$1
 # And walks to directory that specified as argument
 pushd ${sources_path}
 
-# Now make directory especialy for building BINUTILS
-mkdir build-binutils
-cd build-binutils
+# Now make directory especialy for building GDB
+mkdir build-gdb
+cd build-gdb
 
-# After that, we can configure BINUTILS to build it for our platform
-../binutils-${BINUTILS_VERSION}/configure \
+# After that, we can configure GDB to build it for our platform
+../gdb.x.y.z/configure \ 
     --target=${BUILD_TARGET} \ # BUILD_TARGET is specified in Dockerfile, running that script
     --prefix="${BUILD_PREFIX}" \ # BUILD_PREFIX is also specified in Dockerfile
-    --with-sysroot --disable-nls --disable-werror
-
-# --with-sysroot tells BINUTILS to enable sysroot support 
-# in the cross compiler by pointing it to a default empty directory
-
-# --disable-nls tells BINUTILS not to include native language support
-# This flag reduces dependencies and compilation time
+    --disable-werror
 
 # --disable-werror s a compiler flag that causes 
 # all compiler warnings to be treated as errors
 
 # All required components can be built using the following commands
-make -j ${MAKE_JOBS}
-make -j ${MAKE_JOBS} install
+make -j ${MAKE_JOBS} all-gdb
+make -j ${MAKE_JOBS} install-gdb
 
 # POPD returns you to the latest directory stored on stack
 popd
