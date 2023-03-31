@@ -1,2 +1,5 @@
+# Ignoring build folder, which contains compiled object files
 build/
+
+# Ignoring release folder, where linked binaries will be stored
 release/
