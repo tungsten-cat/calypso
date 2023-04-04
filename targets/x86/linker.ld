@@ -14,4 +14,17 @@ SECTIONS
     {
         *(.text)
     }
+    
+    /* Next section contains READ-ONLY data */
+    .rodata
+    {
+        *(.rodata)
+    }
+
+    /* After that we'll put BSS section
+     * which is also a data section, but it contains uninitialized data  */
+    .bss
+    {
+        *(.bss)
+    }
 }
