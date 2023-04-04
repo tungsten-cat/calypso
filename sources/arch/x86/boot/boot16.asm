@@ -36,9 +36,14 @@ _bootloader_entry:
     ; To change our CS register we should perform a far jump
     jmp GDT32_start.GDT32_code:_protected_mode_entry
 
-
 ; Also we should include file with our GDT32
 %include "gdt/gdt32.asm"
+
+; Before compiling we should check if our bootloader code
+; Is not longer than 512 bytes so it can fit boot segment
+%if ($ - $$) > 510
+    %fatal "Bootloader code exceed 512 bytes!"
+%endif
 
 ; Due the fact that boot sector should be 512 bytes long
 ; We're putting zeros to remaining bytes of it
