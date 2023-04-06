@@ -30,13 +30,14 @@ BASE_DIRECTORY := $(PWD)
 # After that we'll set path to SOURCES folder
 SOURCES_DIRECTORY := $(BASE_DIRECTORY)/sources/
 
-# Setting OBJECT_DIRECTORY, which contains compiled object files
+# Setting BUILD_DIRECTORY, which contains compiled binary files
 # Also setting RELEASE_DIRECTORY, where linked binaries will be stored
-OBJECTS_DIRECTORY := $(BASE_DIRECTORY)/build/$(BUILD_TARGET)
+BUILD_DIRECTORY := $(BASE_DIRECTORY)/build/$(BUILD_TARGET)
 RELEASE_DIRECTORY := $(BASE_DIRECTORY)/release/$(BUILD_TARGET)
 
-# Collecting ASM source files
-TARGET_ASM_SOURCE_FILES := $(shell find $(SOURCES_DIRECTORY)/arch/$(TARGET_ARCH) -type f -name *.asm)
+# Collecting platform specific ASM source files, 
+TARGET_ASM_SOURCE_FILES := $(shell find $(SOURCES_DIRECTORY)/arch/$(TARGET_ARCH) -name *.asm)
 
-ASM_SOURCE_FILES := $(filter-out $(TARGET_ASM_SOURCE_FILES) $())
-ASM_OBJECT_FILES := $(patsubst %.asm, %.o, $(x86_64_ASM_SOURCE_FILES))
+# Collecting universal ASM files
+ASM_SOURCE_FILES := $(TARGET_ASM_SOURCE_FILES) $(filter-out $(TARGET_ASM_SOURCE_FILES) $(shell find $(SOURCES_DIRECTORY) -name *.asm)) 
+ASM_OBJECT_FILES := $(patsubst $(SOURCES_DIRECTORY)/%.asm, $(BUILD_DIRECTORY)/%.bin, $(ASM_SOURCE_FILES))
