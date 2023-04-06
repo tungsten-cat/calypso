@@ -39,7 +39,7 @@ _bootloader_entry:
 ; Also we should include file with our GDT32
 %include "gdt/gdt32.asm"
 
-; The same is for GDT64
+; The same include directive is for GDT64
 %include "gdt/gdt64.asm"
 
 ; Before compiling we should check if our bootloader code
