@@ -1,5 +1,5 @@
 /* First of all we'll set output format for our linked kernel */
-OUTPUT_FORMAT(elf64-x86_64)
+OUTPUT_FORMAT(binary)
 
 /* Setting entry point of bootloader executable file
  * _bootloader_entry is defined in boot.asm for current architecture */

@@ -9,12 +9,6 @@ endif
 # Set variables for unified build process
 # You can change this values, but the build process will work properly
 
-# Setting compiler for C and C++ files
-CC := $(BUILD_TARGET)-gcc
-
-# Setting compiler for Assembly files
-ASC := nasm
-
 # Setting BASE directory, which contains this Makefile
 BASE_DIRECTORY := $(PWD)
 
