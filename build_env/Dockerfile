@@ -7,7 +7,7 @@ ARG IMAGE_VERSION=latest
 FROM ${BASE_IMAGE}:${IMAGE_VERSION}
 
 # Setting target platform for cross compiler
-ARG BUILD_TARGET=x86_64-elf
+ARG BUILD_TARGET=amd64-none-eabi
 
 # To specify target while building
 # Run build command with --build-arg flag
