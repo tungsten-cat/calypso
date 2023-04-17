@@ -1,6 +1,5 @@
-
 ifndef TARGET_ARCH
-	$(error "TARGET_ARCH is not available! You can pass it as environment variable by typing TARGET_ARCH=...")
+$(error "TARGET_ARCH is not available! You can pass it as environment variable by typing TARGET_ARCH=...")
 endif
 
 AS := nasm
