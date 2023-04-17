@@ -1,0 +1,3 @@
+[submodule "build_env"]
+	path = build_env
+	url = git@github.com:tungsten-cat/calypso-build_env.git

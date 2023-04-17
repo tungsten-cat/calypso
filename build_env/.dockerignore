@@ -1,9 +1,0 @@
-# Here we can specify, which files will not be loaded
-# To our build environment in Docker container
-
-# We don't need any Markdown files in container
-# Since we can view them from our computer
-*.md
-
-# Also we don't need LICENSE file, so we should also ignore it
-LICENSE
