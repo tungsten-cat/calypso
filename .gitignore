@@ -3,5 +3,3 @@ build/
 
 # Ignoring release folder, where linked binaries will be stored
 release/
-
-targets/amd64/iso/.gitingnore
