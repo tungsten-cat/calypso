@@ -12,5 +12,25 @@
 ; After that we can create our start label
 ; Where our code will begin executing
 _bootloader_entry:
-    jmp _bootloader_entry
+    mov ah, 0x0F
+    mov al, 'T'
+
+    mov [0xB8000], ax
+
+    mov ah, 0x0F
+    mov al, 'E'
+
+    mov [0xB8002], ax
+
+    mov ah, 0x0F
+    mov al, 'S'
+
+    mov [0xB8004], ax
+
+    mov ah, 0x0F
+    mov al, 'T'
+
+    mov [0xB8006], ax
+
+    hlt
 
