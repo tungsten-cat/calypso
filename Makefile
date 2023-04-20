@@ -75,6 +75,24 @@ $(UNIVERSAL_ASM_OBJECT_FILES): $(BUILD_DIRECTORY)/%.o : $(SOURCES_DIRECTORY)/%.a
 # Finally, we'll collect all our compiled files under one variable
 ASM_OBJECT_FILES := $(TARGET_ASM_OBJECT_FILES) $(UNIVERSAL_ASM_OBJECT_FILES)
 
+# This command will simplify building process
+# So instead of typing commands for building you can just type "make all"
+.PHONY: all
+all:
+# This command will run building process for targeting architecture
+	build-${TARGET_ARCH}
+
+# Also there is a command for cleaning up project
+# It will remove all temp files created while building ISO
+clean:
+# This one will remove compiled files
+	rm -rf ${BUILD_DIRECTORY}
+
+# Next command will remove BIN file under release folder
+	rm ${RELEASE_DIRECTORY}/${TARGET_ARCH}/calypso-${TARGET_ARCH}.bin
+# And the last line will remove built BIN file from folder with GRUB config
+	rm ${TARGET_DIRECTORY}/iso/calypso-${TARGET_ARCH}.bin
+
 # This command compiles our kernel for AMD64 system
 
 # We'll make this target PHONY, which means this command is always outdated
