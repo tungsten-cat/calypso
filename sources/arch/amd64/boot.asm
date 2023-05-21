@@ -12,25 +12,31 @@
 ; After that we can create our start label
 ; Where our code will begin executing
 _bootloader_entry:
-    mov ah, 0x0F
-    mov al, 'T'
+    ; Before we start, we have to bootstrap our stack
+    ; By setting ESP register to the top of the stack
+    mov esp, stack_top
 
-    mov [0xB8000], ax
+    ; And the next step is to run our main function
+    ; This function is declared under sources/kernel/main.c
+    extern kernel_entry
+    call kernel_entry
 
-    mov ah, 0x0F
-    mov al, 'E'
-
-    mov [0xB8002], ax
-
-    mov ah, 0x0F
-    mov al, 'S'
-
-    mov [0xB8004], ax
-
-    mov ah, 0x0F
-    mov al, 'T'
-
-    mov [0xB8006], ax
-
+    ; This instruction halts our CPU
+    ; To prevent executing undefined code
     hlt
 
+    ; Declaring BSS section for uninitialized data
+    section .bss
+
+    ; This code will be aligned on 16-byte boundary
+    align 16
+
+    ; Since the multiboot standart doesn't define the value of the ESP register
+    ; We'll provide the stack for the kernel manually
+    
+; This label points to the bottom of the stack
+stack_bottom:
+    ; Here we'll reserve 16 KiB of memory
+    resb 16 * 1024
+; This label points to the top of the stack
+stack_top:
