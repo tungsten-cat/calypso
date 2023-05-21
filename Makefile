@@ -15,7 +15,7 @@ AS_FLAGS := -f elf64
 # Next, we define variable with compiler for C
 CC := $(TARGET_ARCH)-elf-gcc
 # Also declaring flags for C compiler to run
-CC_FLAGS := -c -ffreestanding
+CC_FLAGS := -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 
 # After building, we'll also link everything to a single kernel file
 # So we should define variable, pointing to linking utility
@@ -54,6 +54,11 @@ UNIVERSAL_ASM_SOURCE_FILES := $(filter-out $(TARGET_ASM_SOURCE_FILES), $(shell f
 # And as well as for platform-dependent files, we'll collect list of compiled files 
 UNIVERSAL_ASM_OBJECT_FILES := $(patsubst $(SOURCES_DIRECTORY)/%.asm, $(BUILD_DIRECTORY)/%.o, $(UNIVERSAL_ASM_SOURCE_FILES))
 
+UNIVERSAL_C_SOURCE_FILES := $(shell find $(SOURCES_DIRECTORY) -name *.c)
+
+UNIVERSAL_C_OBJECT_FILES := $(patsubst $(SOURCES_DIRECTORY)/%.c, $(BUILD_DIRECTORY)/%.o, $(UNIVERSAL_C_SOURCE_FILES))
+
+
 # Next we'll describe compiling scripts for assembly files
 
 # This script will compile platform-specific assembly files
@@ -74,6 +79,15 @@ $(UNIVERSAL_ASM_OBJECT_FILES): $(BUILD_DIRECTORY)/%.o : $(SOURCES_DIRECTORY)/%.a
 
 # Finally, we'll collect all our compiled files under one variable
 ASM_OBJECT_FILES := $(TARGET_ASM_OBJECT_FILES) $(UNIVERSAL_ASM_OBJECT_FILES)
+
+
+$(UNIVERSAL_C_OBJECT_FILES): $(BUILD_DIRECTORY)/%.o : $(SOURCES_DIRECTORY)/%.c
+
+	mkdir -p $(dir $@)
+
+	$(CC) $(CC_FLAGS) $(patsubst $(BUILD_DIRECTORY)/%.o, $(SOURCES_DIRECTORY)/%.c, $@) -o $@
+
+C_OBJECT_FILES := $(UNIVERSAL_C_OBJECT_FILES)
 
 # This command will simplify building process
 # So instead of typing commands for building you can just type "make all"
@@ -98,7 +112,7 @@ clean:
 # We'll make this target PHONY, which means this command is always outdated
 # It's useful because we'll rebuild our kernel every time this command runs
 .PHONY: build-amd64
-build-amd64: $(ASM_OBJECT_FILES)
+build-amd64: $(ASM_OBJECT_FILES) $(C_OBJECT_FILES)
 # First of all, we'll create directory for our built kernel
 	mkdir -p $(RELEASE_DIRECTORY)/$(TARGET_ARCH)
 # Next, we'll link everything to a single binary file, which is almost a working system 
