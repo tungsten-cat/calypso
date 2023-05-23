@@ -23,7 +23,7 @@ _bootloader_entry:
 
     ; This instruction halts our CPU
     ; To prevent executing undefined code
-    hlt
+    jmp $
 
     ; Declaring BSS section for uninitialized data
     section .bss
@@ -37,6 +37,6 @@ _bootloader_entry:
 ; This label points to the bottom of the stack
 stack_bottom:
     ; Here we'll reserve 16 KiB of memory
-    resb 16 * 1024
+    resb 16384
 ; This label points to the top of the stack
 stack_top:

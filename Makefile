@@ -7,6 +7,23 @@ endif
 
 # Next, declare variables for universal build
 
+# NOTE: ALL ADDRESSES SHOULD NOT CONTAIN "/"
+# AT THE END OF PATH TO THE DIRECTORY 
+
+# Setting BASE directory, which contains this Makefile
+BASE_DIRECTORY := $(PWD)
+
+# After that we'll set path to SOURCES folder
+SOURCES_DIRECTORY := $(BASE_DIRECTORY)/sources
+
+# Setting BUILD_DIRECTORY, which contains compiled binary files
+BUILD_DIRECTORY := $(BASE_DIRECTORY)/build
+# Also setting RELEASE_DIRECTORY, where linked binaries will be stored
+RELEASE_DIRECTORY := $(BASE_DIRECTORY)/release
+
+# Next, we'll set directory with requirements for targeting architecture
+TARGET_DIRECTORY := $(BASE_DIRECTORY)/targets/$(TARGET_ARCH)
+
 # This field specifies assembly compiler
 AS := nasm
 # And flags for this compiler to run
@@ -22,23 +39,6 @@ CC_FLAGS := -c -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 LD := $(TARGET_ARCH)-elf-ld
 # Also we should declare flags for linker, as well as for compilers
 LD_FLAGS := -n
-
-# NOTE: ALL ADDRESSES SHOULD NOT CONTAIN "/"
-# AT THE END OF PATH TO THE DIRECTROY 
-
-# Setting BASE directory, which contains this Makefile
-BASE_DIRECTORY := $(PWD)
-
-# After that we'll set path to SOURCES folder
-SOURCES_DIRECTORY := $(BASE_DIRECTORY)/sources
-
-# Setting BUILD_DIRECTORY, which contains compiled binary files
-BUILD_DIRECTORY := $(BASE_DIRECTORY)/build
-# Also setting RELEASE_DIRECTORY, where linked binaries will be stored
-RELEASE_DIRECTORY := $(BASE_DIRECTORY)/release
-
-# Next, we'll set directory with requirements for targeting architecture
-TARGET_DIRECTORY := $(BASE_DIRECTORY)/targets/$(TARGET_ARCH)
 
 # After that we will collect source files to build our kernel
 
@@ -116,9 +116,9 @@ build-amd64: $(ASM_OBJECT_FILES) $(C_OBJECT_FILES)
 # First of all, we'll create directory for our built kernel
 	mkdir -p $(RELEASE_DIRECTORY)/$(TARGET_ARCH)
 # Next, we'll link everything to a single binary file, which is almost a working system 
-	$(LD) $(LD_FLAGS) -o $(RELEASE_DIRECTORY)/$(TARGET_ARCH)/calypso-$(TARGET_ARCH).bin -T $(TARGET_DIRECTORY)/linker.ld $(ASM_OBJECT_FILES)
+	$(LD) $(LD_FLAGS) -o $(RELEASE_DIRECTORY)/$(TARGET_ARCH)/calypso-$(TARGET_ARCH).bin -T $(TARGET_DIRECTORY)/linker.ld $(ASM_OBJECT_FILES) $(C_OBJECT_FILES)
 # After that, we'll copy linked binary to folder with GRUB config to properly build ISO image
-	cp $(RELEASE_DIRECTORY)/$(TARGET_ARCH)/calypso-$(TARGET_ARCH).bin $(TARGET_DIRECTORY)/iso/calypso-$(TARGET_ARCH).bin
+	cp $(RELEASE_DIRECTORY)/$(TARGET_ARCH)/calypso-$(TARGET_ARCH).bin $(TARGET_DIRECTORY)/iso/boot/calypso-$(TARGET_ARCH).bin
 # And the last step before getting working ISO is to run this command to create ISO with GRUB installed
 # This command installs GRUB config from iso/grub directory under TARGET_DIRECTORY
 	grub-mkrescue /usr/lib/grub/i386-pc -o $(RELEASE_DIRECTORY)/$(TARGET_ARCH)/calypso-$(TARGET_ARCH).iso $(TARGET_DIRECTORY)/iso
