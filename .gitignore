@@ -3,3 +3,5 @@ build/
 
 # Ignoring release folder, where linked binaries will be stored
 release/
+
+.vscode
