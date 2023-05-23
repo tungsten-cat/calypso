@@ -9,7 +9,7 @@ SECTIONS
      * such hexadecimal value can be iterpreted as 1M offset */
     . = 0x00100000;
 
-    .boot BLOCK(4K): ALIGN(4K)
+    .boot BLOCK(4K) : ALIGN(4K)
     {
         KEEP(*(.multiboot))
     }
@@ -21,8 +21,19 @@ SECTIONS
     }
 
     /* Next section that'll be linked is RODATA, which contains read-only data */
-    .rodata BLOCK(4K): ALIGN(4K)
+    .rodata BLOCK(4K) : ALIGN(4K)
     {
         *(.rodata)
+    }
+
+    .data BLOCK(4K) : ALIGN(4K)
+    {
+        *(.data)
+    }
+
+    .bss BLOCK(4K) : ALIGN(4K)
+    {
+        *(COMMON)
+        *(.bss)
     }
 }
