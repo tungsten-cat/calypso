@@ -16,6 +16,6 @@ Remember that instead of `build_env`, you can provide a name of any other folder
 
 ## Building from sources
 First of all, you need to enter your build environment:
-- For Linux or MacOS: `docker run --rm --interactive --tty --volume "$(pwd)":/root/env calypso-build_env`
-- For Windows with CMD: `docker run --rm --interactive --tty --volume "%cd%":/root/env calypso-build_env`
-- For Windows with CMD: `docker run --rm --interactive --tty --volume "%cd%":/root/env calypso-build_env`
+- Linux/MacOS: `docker run --rm --interactive --tty --volume "$(pwd)":/root/env calypso-build_env`
+- Windows (CMD): `docker run --rm --interactive --tty --volume "%cd%":/root/env calypso-build_env`
+- Windows (PowerShell): `docker run --rm --interactive --tty --volume "${pwd}":/root/env calypso-build_env`
