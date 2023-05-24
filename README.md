@@ -9,8 +9,8 @@
 Before we start, you should build an image for our build environment by running:
 - `docker build build_env -t calypso-build_env`
 
-Remember that instead of `build_env` you can provide a name of a folder, containing your Dockerfile, as well as for `calypso_build-env` you can write a title for your building environment image
+Remember that instead of `build_env` you can provide a name of a folder, containing your Dockerfile, as well as instead of `calypso_build-env` you can write a title for your building environment image
 
 > **Note**
-> For more detailed build environment configuration, you can read documentation of a [`calypso-build_environment`](https://github.com/tungsten-cat/calypso-build_env)
+> For detailed build environment configuration, you can read README of a [`calypso-build_environment`](https://github.com/tungsten-cat/calypso-build_env)
 
