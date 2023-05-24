@@ -24,12 +24,10 @@ RELEASE_DIRECTORY := $(BASE_DIRECTORY)/release
 # Next, we'll set directory with requirements for targeting architecture
 TARGET_DIRECTORY := $(BASE_DIRECTORY)/targets/$(TARGET_ARCH)
 
-TARGET_ASM_INCLUDE_DIR := $(SOURCES_DIRECTORY)/arch/$(TARGET_ARCH)
-
 # This field specifies assembly compiler
 AS := nasm
 # And flags for this compiler to run
-AS_FLAGS := -f elf64 -i $(TARGET_ASM_INCLUDE_DIR)
+AS_FLAGS := -f elf64
 
 # Next, we define variable with compiler for C
 CC := $(TARGET_ARCH)-elf-gcc
